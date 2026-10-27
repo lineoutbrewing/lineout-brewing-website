@@ -1,0 +1,1142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Lineout Brewing: rugby-themed craft beer in Arizona. A full 23-man roster of beers, each with a Coach's Cut specialty.">
+<meta property="og:title" content="Lineout Brewing">
+<meta property="og:description" content="Straight throw. Cold pour. Rugby-themed craft beer in Arizona.">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Lineout Brewing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+<style>
+/* Layout concept: a rugby team sheet. Hero is a plan-view lineout on a striped pitch; the tap list is numbered like shirts (1-8 forwards, 9-15 backs, 16-23 bench), each with a Coach's Cut underneath and a scoreboard of pour prices. Jersey hoops divide the page. */
+:root{
+  --bg:#F1F4EE; --bg-alt:#E5EBE0; --ink:#10261C; --muted:#4B5F53; --rule:#C7D2C2;
+  --accent:#1B5E3B; --green:#1B5E3B; --gold:#F2B63A; --on-gold:#1A1405;
+  --band:#123D29; --band-ink:#EEF3EA; --band-muted:#B7C9BC; --band-rule:#2F5B45;
+  --turf-a:#1F6E45; --turf-b:#1A6340; --chalk:#F3F6EF; --focus:#1B5E3B;
+  --display:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;
+  --body:'Hanken Grotesk',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'DM Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1812; --bg-alt:#102219; --ink:#E8F0E4; --muted:#9FB3A5; --rule:#243C2F;
+    --accent:#F2B63A; --green:#25774D; --band:#123626; --band-rule:#2B533F;
+    --turf-a:#1A5C3B; --turf-b:#165235; --focus:#F2B63A; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B1812; --bg-alt:#102219; --ink:#E8F0E4; --muted:#9FB3A5; --rule:#243C2F;
+  --accent:#F2B63A; --green:#25774D; --band:#123626; --band-rule:#2B533F;
+  --turf-a:#1A5C3B; --turf-b:#165235; --focus:#F2B63A; color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,h5,p,ul,dl,dd,figure{margin:0}
+h1,h2,h3,h4,h5{font-family:var(--display);text-transform:uppercase;text-wrap:balance;font-weight:800;line-height:.95}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.band :focus-visible,.board :focus-visible{outline-color:var(--gold)}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.wrap{max-width:1240px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+section{padding-block:clamp(52px,8vw,100px)}
+.eyebrow{font:500 12px/1.3 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.band{background:var(--band);color:var(--band-ink)}
+.band .eyebrow{color:var(--gold)}
+h2{font-size:clamp(2.6rem,6.4vw,4.75rem);font-weight:900}
+.sec-head{display:grid;gap:14px;max-width:66ch}
+.sec-head p{color:var(--muted);max-width:58ch}
+
+/* Header */
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 28px;padding-block:18px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 1.45rem/1 var(--display);letter-spacing:.14em;text-transform:uppercase}
+.brand svg{width:38px;height:38px;flex:none}
+.nav{display:flex;flex-wrap:wrap;gap:8px 26px}
+.nav a{font:500 12.5px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;padding-block:8px}
+.nav a:hover{text-decoration:underline;text-decoration-thickness:3px;text-decoration-color:var(--gold);text-underline-offset:6px}
+
+/* Hero */
+.hero{padding-block:clamp(24px,5vw,64px) clamp(44px,7vw,88px)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(28px,5vw,64px);align-items:center}
+.hero-copy{display:grid;gap:22px;justify-items:start}
+h1{display:grid;gap:10px;width:100%}
+.h1-main{font-size:clamp(4.6rem,15vw,10rem);font-weight:900;line-height:.84;letter-spacing:-.005em}
+.h1-sub{display:flex;align-items:center;gap:16px;font-size:clamp(1.3rem,3.6vw,2.2rem);font-weight:800;letter-spacing:.42em;color:var(--accent);line-height:1}
+.h1-sub::after{content:"";flex:1;height:8px;background:var(--gold)}
+.tagline{font:800 clamp(1.5rem,3.4vw,2.2rem)/1.02 var(--display);text-transform:uppercase;letter-spacing:.02em}
+.lede{max-width:46ch;color:var(--muted);font-size:1.0625rem}
+.cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:6px}
+.btn{display:inline-block;padding:14px 22px;border:2px solid var(--ink);border-radius:2px;background:transparent;color:var(--ink);font:700 .9rem/1 var(--body);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease}
+.btn.primary{background:var(--gold);color:var(--on-gold)}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink)}
+.btn.small{padding:10px 16px;font-size:.8rem}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.hero-note{font:400 12px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+.pitch-fig{display:grid;gap:12px;min-width:0}
+.pitch{background:var(--turf-a);line-height:0}
+.pitch svg{display:block;width:100%;height:auto}
+.pitch-fig figcaption{font:400 12px/1.5 var(--mono);color:var(--muted);letter-spacing:.04em}
+.stripe-b{fill:var(--turf-b)}
+.tl{stroke:var(--chalk);stroke-width:4}
+.dash{stroke:var(--chalk);stroke-width:2.5;stroke-dasharray:9 9;opacity:.75}
+.lab{font:500 13px var(--mono);letter-spacing:.08em;fill:var(--chalk);paint-order:stroke;stroke:var(--turf-b);stroke-width:6px;stroke-linejoin:round}
+.atk{fill:var(--gold);stroke:var(--turf-b);stroke-width:1.5}
+.def{fill:none;stroke:var(--chalk);stroke-width:2}
+.num{font:500 11px var(--mono);fill:#1A1405;text-anchor:middle;dominant-baseline:central;font-weight:500}
+.ring{fill:none;stroke:var(--gold);stroke-width:2.5;stroke-dasharray:4 3;transform-box:fill-box;transform-origin:center}
+.trail{stroke:var(--chalk);stroke-width:2;opacity:.55}
+.pass{fill:none;stroke:var(--gold);stroke-width:2;stroke-dasharray:6 6}
+.ball-body{fill:var(--chalk);stroke:#0F3322;stroke-width:1.5}
+.ball-seam{stroke:#0F3322;stroke-width:1.5;fill:none}
+@media (prefers-reduced-motion:no-preference){
+  .ball{animation:throw 1.3s cubic-bezier(.2,.7,.3,1) .5s backwards}
+  .trail{animation:fade 1.3s ease-out .5s backwards}
+  .ring{animation:pop .5s cubic-bezier(.2,1.4,.4,1) 1.7s backwards}
+  .pass,.backs{animation:fade .7s ease-out 2.1s backwards}
+}
+@keyframes throw{from{transform:translateX(-180px)}to{transform:none}}
+@keyframes fade{from{opacity:0}}
+@keyframes pop{from{opacity:0;transform:scale(.3)}}
+
+.hoops{height:42px;background:linear-gradient(to bottom,var(--green) 0 14px,var(--gold) 14px 28px,var(--green) 28px 42px)}
+
+/* Scoreboard of prices */
+.board{margin-top:36px;background:var(--band);color:var(--band-ink);padding:clamp(20px,3.4vw,40px)}
+.board-head{display:grid;gap:8px;margin-bottom:18px}
+.board .eyebrow{color:var(--gold)}
+.board h3{font-size:clamp(2rem,4vw,2.8rem);font-weight:900}
+.board-scroll{overflow-x:auto}
+.board table{width:100%;border-collapse:collapse;color:var(--band-ink)}
+.board th,.board td{padding:14px 10px;text-align:left;border-top:1px solid var(--band-rule);vertical-align:middle}
+.board thead th{border-top:0;padding-top:0;vertical-align:bottom;font:800 1.2rem/1 var(--display);text-transform:uppercase;letter-spacing:.04em}
+.board thead small{display:block;margin-top:6px;font:400 10.5px/1.35 var(--mono);letter-spacing:.04em;text-transform:none;color:var(--band-muted)}
+.board tbody th{font:800 1.2rem/1.1 var(--display);text-transform:uppercase}
+.pour{display:flex;align-items:center;gap:14px}
+.pour svg{flex:none;color:var(--gold)}
+.pour-t span{display:block;margin-top:4px;font:400 11px/1.3 var(--mono);letter-spacing:.12em;color:var(--band-muted)}
+.board td{font:900 clamp(1.5rem,3.2vw,2.3rem)/1 var(--display);color:var(--gold);font-variant-numeric:tabular-nums}
+.board-note{margin-top:16px;max-width:70ch;font:400 12px/1.5 var(--mono);letter-spacing:.04em;color:var(--band-muted)}
+
+/* Owner controls (shown only to people who can edit the page) */
+.ownbar{margin-top:28px;display:grid;gap:12px;padding:16px 18px;border:2px dashed var(--ink)}
+.ownbar-title{font:500 12px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.own-note{color:var(--muted);font-size:.95rem;max-width:62ch}
+.own-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+#own-status{font:400 12px/1.4 var(--mono);letter-spacing:.04em;color:var(--muted)}
+.sw{display:inline-flex;align-items:center;gap:10px;margin-top:10px;font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.ownbar .sw{margin-top:0}
+.sw input{appearance:none;-webkit-appearance:none;flex:none;position:relative;width:40px;height:22px;margin:0;border:2px solid var(--ink);border-radius:11px;background:transparent;cursor:pointer}
+.sw input::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--ink);transition:transform .15s ease}
+.sw input:checked{background:var(--gold)}
+.sw input:checked::after{transform:translateX(18px);background:var(--on-gold)}
+
+/* Team sheet */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.chip{padding:9px 16px;border:2px solid var(--ink);border-radius:2px;background:transparent;color:var(--ink);font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.chip:hover{background:var(--bg-alt)}
+.chip[aria-pressed="true"]:hover{background:var(--ink)}
+.chip.live::before{content:"";display:inline-block;width:7px;height:7px;margin-right:8px;border-radius:50%;background:var(--gold)}
+.chip.cuts{margin-left:auto}
+.groups{margin-top:36px}
+.group + .group{margin-top:56px}
+.group-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 20px}
+.group-head h3{font-size:clamp(1.8rem,3.6vw,2.4rem);font-weight:900}
+.group-head h3 span{font:400 .85rem var(--mono);letter-spacing:.12em;color:var(--muted);margin-left:10px}
+.group-head p{color:var(--muted);font-size:.98rem}
+.beers{list-style:none;margin:18px 0 0;padding:0;border-bottom:1px solid var(--rule)}
+.beer{padding-block:22px;border-top:1px solid var(--rule)}
+.main{display:grid;grid-template-columns:72px minmax(0,1fr);gap:6px 18px;align-items:start}
+.main .shirt{grid-row:1 / span 3}
+.main .desc,.main .meta{grid-column:2}
+.shirt{display:grid;place-items:center;width:72px;height:68px;padding-top:10px;background:var(--green);color:var(--gold);font:900 2.5rem/1 var(--display);clip-path:polygon(22% 0,36% 9%,64% 9%,78% 0,100% 20%,88% 36%,80% 29%,80% 100%,20% 100%,20% 29%,12% 36%,0 20%)}
+.shirt.sub{background:var(--gold);color:var(--on-gold)}
+.who{display:grid;justify-items:start}
+.beer h4{font-size:clamp(1.6rem,3vw,2rem);font-weight:900}
+.pos{margin-top:6px;font:400 11.5px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.desc{max-width:50ch}
+.made{font:500 11.5px/1.4 var(--mono);letter-spacing:.04em;color:var(--accent)}
+.made::before{content:"Made with ";color:var(--muted)}
+.meta{display:grid;gap:12px;margin-top:4px}
+.stats{display:flex;gap:26px}
+.stats div{display:grid;gap:2px}
+.stats dt,.prices dt{font:400 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.stats dd{font:500 1.15rem/1.1 var(--mono);font-variant-numeric:tabular-nums}
+.prices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.prices div{display:grid;gap:3px}
+.prices dd{font:500 1rem/1.1 var(--mono);font-variant-numeric:tabular-nums}
+.ontap{display:inline-flex;align-items:center;gap:7px;margin-bottom:8px;padding:4px 9px 3px;background:var(--gold);color:var(--on-gold);font:500 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.ontap::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--on-gold)}
+.cut{display:grid;gap:6px;margin:16px 0 0 24px;padding-top:14px;border-top:1px dashed var(--rule)}
+.cut-who{display:grid;justify-items:start}
+.cut-tag{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:8px}
+.cut-tag .ontap{margin:0}
+.tag-chip{padding:4px 8px 3px;border:1.5px solid var(--accent);color:var(--accent);font:500 11px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.cut h5{font-size:clamp(1.3rem,2.4vw,1.6rem);font-weight:900}
+@media (min-width:1000px){
+  .beer{display:grid;grid-template-columns:76px minmax(0,1fr) minmax(0,1.3fr) 300px;gap:0 32px;align-items:center}
+  .main{display:contents}
+  .main .shirt{grid-row:auto}
+  .main .desc,.main .meta{grid-column:auto}
+  .meta{margin-top:0}
+  .desc{max-width:none}
+  .cut{grid-column:2 / -1;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) 300px;gap:0 32px;align-items:center;margin:18px 0 0}
+}
+
+/* Club */
+.club-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,88px);align-items:start}
+.club-copy{display:grid;gap:20px}
+.club-copy p{color:var(--band-muted);max-width:52ch}
+.values-lead{font:400 12px/1.5 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--band-muted);margin-bottom:6px}
+.values div{display:grid;grid-template-columns:minmax(0,9.5rem) minmax(0,1fr);gap:4px 20px;padding-block:16px;border-top:1px solid var(--band-rule);align-items:baseline}
+.values div:last-child{border-bottom:1px solid var(--band-rule)}
+.values dt{font:900 1.7rem/1 var(--display);text-transform:uppercase;color:var(--gold);letter-spacing:.02em}
+.values dd{color:var(--band-ink)}
+
+/* Fixtures */
+.fixtures{list-style:none;margin:36px 0 0;padding:0;display:grid;gap:0;border-bottom:1px solid var(--rule)}
+.fixture{display:grid;grid-template-columns:78px minmax(0,1fr);gap:8px 22px;padding-block:20px;border-top:1px solid var(--rule);align-items:center}
+.date{display:grid;justify-items:center;border:2px solid var(--ink);padding:8px 0 6px;line-height:1}
+.date .dow,.date .mon{font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.date .day{font:900 2.5rem/1 var(--display);margin-block:4px 2px}
+.fixture h3{font-size:clamp(1.5rem,2.8vw,1.9rem);font-weight:900}
+.fixture .what{display:grid;gap:6px}
+.fixture .what p{color:var(--muted);max-width:56ch}
+.ko{grid-column:2;font:400 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.ko b{display:block;font:500 1.1rem/1.2 var(--mono);letter-spacing:.02em;color:var(--ink);text-transform:none}
+.fx-note{margin-top:16px;font:400 12px/1.5 var(--mono);letter-spacing:.04em;color:var(--muted)}
+@media (min-width:760px){
+  .fixture{grid-template-columns:78px minmax(0,1fr) auto;gap:8px 32px}
+  .ko{grid-column:auto;text-align:right}
+}
+
+/* Taproom */
+.tap-wrap{background:var(--bg-alt)}
+.tap-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,88px);margin-top:36px;align-items:start}
+.hours div{display:grid;grid-template-columns:minmax(0,8rem) minmax(0,1fr);gap:4px 16px;padding-block:14px;border-top:1px solid var(--rule);align-items:baseline}
+.hours div:last-child{border-bottom:1px solid var(--rule)}
+.hours dt{font:900 1.45rem/1 var(--display);text-transform:uppercase}
+.hours dd{font:500 1rem/1.3 var(--mono);font-variant-numeric:tabular-nums}
+.hours .closed dd,.hours .closed dt{color:var(--muted)}
+.find{display:grid;gap:22px}
+.find h3{font-size:1.9rem;font-weight:900}
+.addr{font-size:1.15rem;font-weight:600;line-height:1.4}
+.addr span{display:block;color:var(--muted);font-weight:400}
+.rules{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.rules li{padding-left:22px;position:relative}
+.rules li::before{content:"";position:absolute;left:0;top:.62em;width:10px;height:10px;background:var(--gold);transform:rotate(45deg)}
+.tz{font:400 12px/1.5 var(--mono);letter-spacing:.04em;color:var(--muted)}
+
+/* Footer */
+.foot{padding-block:44px}
+.foot-grid{display:flex;flex-wrap:wrap;justify-content:space-between;gap:24px 40px;align-items:flex-end}
+.foot .brand{color:var(--band-ink)}
+.foot p{color:var(--band-muted);font-size:.92rem;max-width:44ch}
+.foot .tag{font:800 1.3rem/1.1 var(--display);text-transform:uppercase;letter-spacing:.04em;color:var(--gold);margin-top:14px}
+
+@media (max-width:900px){
+  .hero-grid,.club-grid,.tap-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:480px){
+  .values div{grid-template-columns:minmax(0,1fr)}
+  .hours div{grid-template-columns:minmax(0,1fr)}
+  .pour svg{display:none}
+  .board th,.board td{padding-inline:6px}
+  .board td{font-size:1.25rem}
+  .board thead th{font-size:1rem}
+  .board thead small{display:none}
+  .cut{margin-left:12px}
+  .chip.cuts{margin-left:0}
+}
+
+/* Join the team sheet */
+.join-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,88px);align-items:center}
+.join-copy{display:grid;gap:18px}
+.join-copy p{color:var(--band-muted);max-width:50ch}
+.join-form{display:grid;gap:16px;background:var(--band-ink);color:var(--ink);padding:clamp(22px,4vw,36px);border:2px solid var(--gold)}
+.join-form label.lbl{font:500 12px/1.3 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#123D29}
+.join-form input[type=email]{width:100%;font:500 1rem/1.2 var(--body);padding:14px 14px;border:2px solid #123D29;border-radius:2px;background:#fff;color:#10261C}
+.join-form input[type=email]:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.join-age{display:flex;gap:10px;align-items:flex-start;font-size:.92rem;line-height:1.4;color:#10261C}
+.join-age input{margin-top:3px;width:18px;height:18px;accent-color:#123D29;flex:none}
+.join-form .btn{width:100%;border-color:#123D29;background:var(--gold);color:var(--on-gold);cursor:pointer}
+.join-note{font-size:.85rem;color:#3C4F44;line-height:1.45}
+.join-msg{font-size:.95rem;font-weight:600;color:#123D29;min-height:1.4em}
+.join-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+@media (max-width:820px){.join-grid{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .btn,.sw input::after{transition:none}
+}
+</style>
+</head>
+<body>
+
+
+<header class="wrap top">
+  <a class="brand" href="#top" aria-label="Lineout Brewing, home">
+    <svg viewBox="0 0 40 40" aria-hidden="true"><g transform="rotate(-35 20 20)"><ellipse cx="20" cy="20" rx="18" ry="10.5" fill="var(--green)"/><path d="M7 20H33M14 16.5v7M18.5 16.5v7M23 16.5v7M27.5 16.5v7" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" fill="none"/></g></svg>
+    <span>Lineout Brewing</span>
+  </a>
+  <nav class="nav" aria-label="Main">
+    <a href="#team-sheet">Team Sheet</a>
+    <a href="#prices">Prices</a>
+    <a href="#club">The Club</a>
+    <a href="#fixtures">Fixtures</a>
+    <a href="#join">Join</a>
+    <a href="#taproom">Visit</a>
+  </nav>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Rugby-born craft beer · Arizona</p>
+      <h1><span class="h1-main">Lineout</span><span class="h1-sub">Brewing</span></h1>
+      <p class="tagline">Straight throw.<br>Cold pour.</p>
+      <p class="lede">Small-batch beer brewed in Arizona, lined up like a match-day squad. The heavy ones up front, the quick ones out wide, and a seat for the other side after the final whistle.</p>
+      <div class="cta">
+        <a class="btn primary" href="#team-sheet">See the team sheet</a>
+        <a class="btn" href="#taproom">Visit the taproom</a>
+      </div>
+      <p class="hero-note">Taproom open Wednesday to Sunday</p>
+    </div>
+
+    <figure class="pitch-fig">
+      <div class="pitch">
+        <svg viewBox="0 0 560 360" role="img" aria-labelledby="lo-t lo-d">
+          <title id="lo-t">An attacking lineout</title>
+          <desc id="lo-d">Plan view of a lineout between the 5 metre and 15 metre lines. The hooker throws down the gap between two lines of forwards, the jumper is lifted to catch it, and the ball goes out along the backline.</desc>
+          <rect class="stripe-b" x="129" y="0" width="85" height="360"/>
+          <rect class="stripe-b" x="299" y="0" width="85" height="360"/>
+          <rect class="stripe-b" x="469" y="0" width="85" height="360"/>
+          <line class="tl" x1="44" y1="0" x2="44" y2="360"/>
+          <line class="dash" x1="129" y1="0" x2="129" y2="360"/>
+          <line class="dash" x1="299" y1="0" x2="299" y2="360"/>
+          <text class="lab" x="44" y="24" text-anchor="middle">TOUCHLINE</text>
+          <text class="lab" x="129" y="24" text-anchor="middle">5 M</text>
+          <text class="lab" x="299" y="24" text-anchor="middle">15 M</text>
+
+          <g>
+            <circle class="atk" cx="141" cy="168" r="7"/><circle class="atk" cx="166" cy="168" r="7"/><circle class="atk" cx="191" cy="168" r="7"/>
+            <circle class="atk" cx="216" cy="168" r="7"/><circle class="atk" cx="241" cy="168" r="7"/><circle class="atk" cx="266" cy="168" r="7"/><circle class="atk" cx="291" cy="168" r="7"/>
+            <circle class="def" cx="141" cy="188" r="7"/><circle class="def" cx="166" cy="188" r="7"/><circle class="def" cx="191" cy="188" r="7"/>
+            <circle class="def" cx="216" cy="188" r="7"/><circle class="def" cx="241" cy="188" r="7"/><circle class="def" cx="266" cy="188" r="7"/><circle class="def" cx="291" cy="188" r="7"/>
+          </g>
+          <circle class="ring" cx="216" cy="168" r="16"/>
+          <text class="lab" x="216" y="140" text-anchor="middle">LIFTED</text>
+          <text class="lab" x="216" y="222" text-anchor="middle">THE LINEOUT</text>
+
+          <circle class="atk" cx="26" cy="178" r="9"/>
+          <text class="num" x="26" y="178">2</text>
+          <text class="lab" x="30" y="206" text-anchor="middle">HOOKER</text>
+
+          <line class="trail" x1="38" y1="178" x2="206" y2="178"/>
+          <polyline class="pass" points="226,178 326,178 372,204 418,230 464,256 510,282"/>
+          <g class="backs">
+            <circle class="atk" cx="326" cy="178" r="11"/><text class="num" x="326" y="178">9</text>
+            <circle class="atk" cx="372" cy="204" r="11"/><text class="num" x="372" y="204">10</text>
+            <circle class="atk" cx="418" cy="230" r="11"/><text class="num" x="418" y="230">12</text>
+            <circle class="atk" cx="464" cy="256" r="11"/><text class="num" x="464" y="256">13</text>
+            <circle class="atk" cx="510" cy="282" r="11"/><text class="num" x="510" y="282">14</text>
+          </g>
+          <g transform="translate(216 178)">
+            <g class="ball">
+              <ellipse class="ball-body" rx="11" ry="6.5"/>
+              <path class="ball-seam" d="M-5 0H5M-2.5 -2.5v5M0 -2.5v5M2.5 -2.5v5"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <figcaption>Fig. An attacking lineout between the 5 m and 15 m lines. The hooker throws, the jumper is lifted, and the ball goes out to the backs.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<div class="hoops" aria-hidden="true"></div>
+
+<section id="team-sheet">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">The full roster</p>
+      <h2>The Team Sheet</h2>
+      <p>Shirt numbers follow the position. Forwards wear 1 to 8, backs wear 9 to 15, and the bench wears 16 to 23. Our beers line up the same way: weight up front, pace out wide, and a bench that changes with the season.</p>
+      <p>Every position also carries a Coach's Cut: a separate small-batch beer named for a rugby play or law, listed right under it. We buy the best malt and hops we can find, and the coffee, fruit, honey and dates come from Arizona growers and roasters.</p>
+    </div>
+
+    <div class="board" id="prices">
+      <div class="board-head">
+        <p class="eyebrow">The scoreboard</p>
+        <h3>Pours &amp; prices</h3>
+      </div>
+      <div class="board-scroll">
+        <table>
+          <caption class="vh">Prices by pour size and beer tier</caption>
+          <thead>
+            <tr>
+              <th scope="col">Pour</th>
+              <th scope="col">Standard<small>Best-in-class malts and hops</small></th>
+              <th scope="col">Premium<small>Specialty malts and Arizona adjuncts</small></th>
+              <th scope="col">Reserve<small>Big, hoppy or long-cellared</small></th>
+              <th scope="col">Grand Slam<small>Dates, honey, coffee and oak</small></th>
+            </tr>
+          </thead>
+          <tbody>
+<tr><th scope="row"><span class="pour"><svg viewBox="0 0 24 32" height="20" width="15" aria-hidden="true"><path d="M3 2h18l-2.3 26.2a2.2 2.2 0 0 1-2.2 2H7.5a2.2 2.2 0 0 1-2.2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M4.4 9h15.2l-1.7 19.2a1.2 1.2 0 0 1-1.2 1.1H7.3a1.2 1.2 0 0 1-1.2-1.1z" fill="currentColor"/></svg><span class="pour-t">Taster<span>5 oz</span></span></span></th><td>$2.50</td><td>$3</td><td>$4</td><td>$5</td></tr>
+<tr><th scope="row"><span class="pour"><svg viewBox="0 0 24 32" height="27" width="20" aria-hidden="true"><path d="M3 2h18l-2.3 26.2a2.2 2.2 0 0 1-2.2 2H7.5a2.2 2.2 0 0 1-2.2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M4.4 9h15.2l-1.7 19.2a1.2 1.2 0 0 1-1.2 1.1H7.3a1.2 1.2 0 0 1-1.2-1.1z" fill="currentColor"/></svg><span class="pour-t">Small pour<span>10 oz</span></span></span></th><td>$4.50</td><td>$5</td><td>$6.50</td><td>$8</td></tr>
+<tr><th scope="row"><span class="pour"><svg viewBox="0 0 24 32" height="34" width="26" aria-hidden="true"><path d="M3 2h18l-2.3 26.2a2.2 2.2 0 0 1-2.2 2H7.5a2.2 2.2 0 0 1-2.2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M4.4 9h15.2l-1.7 19.2a1.2 1.2 0 0 1-1.2 1.1H7.3a1.2 1.2 0 0 1-1.2-1.1z" fill="currentColor"/></svg><span class="pour-t">Pint<span>16 oz</span></span></span></th><td>$6</td><td>$7</td><td>$8.50</td><td>$11</td></tr>
+<tr><th scope="row"><span class="pour"><svg viewBox="0 0 24 32" height="46" width="34" aria-hidden="true"><path d="M3 2h18l-2.3 26.2a2.2 2.2 0 0 1-2.2 2H7.5a2.2 2.2 0 0 1-2.2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M4.4 9h15.2l-1.7 19.2a1.2 1.2 0 0 1-1.2 1.1H7.3a1.2 1.2 0 0 1-1.2-1.1z" fill="currentColor"/></svg><span class="pour-t">Big Boy<span>32 oz</span></span></span></th><td>$11</td><td>$13</td><td>$15</td><td>$20</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="board-note">Prices are before tax. A Big Boy is a full 32 oz pour, made for sharing. Priced to keep the taproom open and the pours fair, not to chase margin. Grand Slam beers use our most elite ingredients, such as Arizona dates and honey, micro-roasted coffee and oak, in small batches.</p>
+    </div>
+
+    <div class="filters" role="group" aria-label="Filter the team sheet">
+      <button class="chip" type="button" data-filter="all" aria-pressed="true">All</button>
+      <button class="chip" type="button" data-filter="forwards" aria-pressed="false">Forwards</button>
+      <button class="chip" type="button" data-filter="backs" aria-pressed="false">Backs</button>
+      <button class="chip" type="button" data-filter="bench" aria-pressed="false">Bench</button>
+      <button class="chip live" type="button" data-filter="ontap" aria-pressed="false" hidden>On tap now</button>
+      <button class="chip cuts" id="cuts-chip" type="button" aria-pressed="true">Coach's Cuts</button>
+    </div>
+
+    <div class="groups">
+      <div class="group" data-group="forwards">
+        <div class="group-head">
+          <h3>Forwards <span>No. 1–8</span></h3>
+          <p>The pack. Darker, bolder and built to win the ball.</p>
+        </div>
+        <ul class="beers">
+          <li class="beer">
+            <div class="main" data-key="1">
+              <span class="shirt"><span class="vh">No. </span>1</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Loosehead Brown</h4>
+                <p class="pos">Loosehead prop · Brown ale</p>
+              </div>
+              <p class="desc">Toasted bread, hazelnut and a clean, dry finish. Packs down first and never gives ground.</p>
+              <div class="meta"><p class="made">Maris Otter and brown malt, East Kent Goldings</p><dl class="stats"><div><dt>ABV</dt><dd>5.4%</dd></div><div><dt>IBU</dt><dd>22</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$2.50</dd></div><div><dt>10 oz</dt><dd>$4.50</dd></div><div><dt>16 oz</dt><dd>$6</dd></div><div><dt>32 oz</dt><dd>$11</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="1c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 1 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Rolling Maul</h5>
+                <p class="pos">Baltic porter</p>
+              </div>
+              <p class="desc">A slow, grinding Baltic porter. Dark plum, licorice and a clean lager finish that keeps moving forward.</p>
+              <div class="meta"><p class="made">Weyermann dark malts, lagered 12 weeks</p><dl class="stats"><div><dt>ABV</dt><dd>7.4%</dd></div><div><dt>IBU</dt><dd>28</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="2">
+              <span class="shirt"><span class="vh">No. </span>2</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>The Hooker Amber</h4>
+                <p class="pos">Hooker · Amber ale</p>
+              </div>
+              <p class="desc">Caramel malt with a snap of hops. The hooker throws the ball in at every lineout, and this amber sets up the whole afternoon.</p>
+              <div class="meta"><p class="made">Weyermann specialty malts, Centennial and Cascade</p><dl class="stats"><div><dt>ABV</dt><dd>5.6%</dd></div><div><dt>IBU</dt><dd>30</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$2.50</dd></div><div><dt>10 oz</dt><dd>$4.50</dd></div><div><dt>16 oz</dt><dd>$6</dd></div><div><dt>32 oz</dt><dd>$11</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="2c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 2 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Ruck</h5>
+                <p class="pos">Irish red ale</p>
+              </div>
+              <p class="desc">Toffee, toast and a bitter edge. Everything gets over the ball and stays there.</p>
+              <div class="meta"><p class="made">Maris Otter, roasted barley, East Kent Goldings</p><dl class="stats"><div><dt>ABV</dt><dd>4.7%</dd></div><div><dt>IBU</dt><dd>24</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$2.50</dd></div><div><dt>10 oz</dt><dd>$4.50</dd></div><div><dt>16 oz</dt><dd>$6</dd></div><div><dt>32 oz</dt><dd>$11</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="3">
+              <span class="shirt"><span class="vh">No. </span>3</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Tighthead Porter</h4>
+                <p class="pos">Tighthead prop · Porter</p>
+              </div>
+              <p class="desc">Chocolate, coffee and a smooth, roasty finish. The other half of the front row, and just as hard to move.</p>
+              <div class="meta"><p class="made">Arizona-roasted coffee, Maris Otter, chocolate malt</p><dl class="stats"><div><dt>ABV</dt><dd>5.8%</dd></div><div><dt>IBU</dt><dd>30</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="3c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 3 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Pick and Go</h5>
+                <p class="pos">Extra special bitter</p>
+              </div>
+              <p class="desc">A short, direct ESB. Biscuit, orange marmalade and a firm bitter line, hit hard and repeated.</p>
+              <div class="meta"><p class="made">Maris Otter, Pilgrim and East Kent Goldings</p><dl class="stats"><div><dt>ABV</dt><dd>5.5%</dd></div><div><dt>IBU</dt><dd>38</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$2.50</dd></div><div><dt>10 oz</dt><dd>$4.50</dd></div><div><dt>16 oz</dt><dd>$6</dd></div><div><dt>32 oz</dt><dd>$11</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="4">
+              <span class="shirt"><span class="vh">No. </span>4</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Engine Room Double IPA</h4>
+                <p class="pos">Lock · Double IPA</p>
+              </div>
+              <p class="desc">Tangerine, resin and a heavy hop punch. The second row is the engine room, and this one does the work.</p>
+              <div class="meta"><p class="made">Yakima Chief Citra, Simcoe and Mosaic</p><dl class="stats"><div><dt>ABV</dt><dd>8.2%</dd></div><div><dt>IBU</dt><dd>85</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$4</dd></div><div><dt>10 oz</dt><dd>$6.50</dd></div><div><dt>16 oz</dt><dd>$8.50</dd></div><div><dt>32 oz</dt><dd>$15</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="4c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 4 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Hospital Pass</h5>
+                <p class="pos">Belgian tripel</p>
+              </div>
+              <p class="desc">Pale gold and generous, with pear, white pepper and orange blossom honey. It arrives sweet and hits harder than it looks.</p>
+              <div class="meta"><p class="made">Weyermann Pilsner and Arizona orange blossom honey</p><dl class="stats"><div><dt>ABV</dt><dd>9.0%</dd></div><div><dt>IBU</dt><dd>28</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="5">
+              <span class="shirt"><span class="vh">No. </span>5</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Jumper IPA</h4>
+                <p class="pos">Lock · West Coast IPA</p>
+              </div>
+              <p class="desc">Grapefruit, pine and resin. Gets lifted high, catches the ball and comes down with it.</p>
+              <div class="meta"><p class="made">Simcoe, Centennial, Chinook and Amarillo from Yakima Chief</p><dl class="stats"><div><dt>ABV</dt><dd>6.9%</dd></div><div><dt>IBU</dt><dd>68</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="5c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 5 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Crash Ball</h5>
+                <p class="pos">Black IPA</p>
+              </div>
+              <p class="desc">Pine and citrus hops carried by dark malt. It runs straight at the line and does not slow down.</p>
+              <div class="meta"><p class="made">Weyermann Carafa Special, Simcoe, Chinook and Citra</p><dl class="stats"><div><dt>ABV</dt><dd>7.0%</dd></div><div><dt>IBU</dt><dd>65</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="6">
+              <span class="shirt"><span class="vh">No. </span>6</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Blindside Rye Pale Ale</h4>
+                <p class="pos">Blindside flanker · Rye pale ale</p>
+              </div>
+              <p class="desc">Spicy rye, orange peel and a dry finish. Works the dark side of the scrum, where you are not looking.</p>
+              <div class="meta"><p class="made">Weyermann rye malt and Arizona Valley orange peel</p><dl class="stats"><div><dt>ABV</dt><dd>5.9%</dd></div><div><dt>IBU</dt><dd>38</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="6c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 6 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Turnover</h5>
+                <p class="pos">Weizenbock</p>
+              </div>
+              <p class="desc">Banana, clove and dark bread, with a hint of plum. The dark side of the wheat beer, and a change of possession.</p>
+              <div class="meta"><p class="made">Weyermann wheat and Munich malts, open-fermented character</p><dl class="stats"><div><dt>ABV</dt><dd>7.2%</dd></div><div><dt>IBU</dt><dd>16</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="7">
+              <span class="shirt"><span class="vh">No. </span>7</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Openside Pale Ale</h4>
+                <p class="pos">Openside flanker · American pale ale</p>
+              </div>
+              <p class="desc">Bright citrus and a clean bitter edge. First to the breakdown and first to the bar.</p>
+              <div class="meta"><p class="made">Citra and Mosaic from Yakima Chief</p><dl class="stats"><div><dt>ABV</dt><dd>5.2%</dd></div><div><dt>IBU</dt><dd>40</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$2.50</dd></div><div><dt>10 oz</dt><dd>$4.50</dd></div><div><dt>16 oz</dt><dd>$6</dd></div><div><dt>32 oz</dt><dd>$11</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="7c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 7 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Jackal</h5>
+                <p class="pos">Irish dry stout</p>
+              </div>
+              <p class="desc">Dry, bitter and quietly roasty with Arizona coffee. The jackal gets over the ball and steals it before you notice.</p>
+              <div class="meta"><p class="made">Flaked barley, roasted barley and Arizona-roasted coffee</p><dl class="stats"><div><dt>ABV</dt><dd>4.4%</dd></div><div><dt>IBU</dt><dd>36</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="8">
+              <span class="shirt"><span class="vh">No. </span>8</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Number Eight Imperial Stout</h4>
+                <p class="pos">Number eight · Imperial stout</p>
+              </div>
+              <p class="desc">Cocoa, espresso and dark cherry. Picks up at the base of the scrum and drives. A big beer, so pace yourself.</p>
+              <div class="meta"><p class="made">Maris Otter, Arizona micro-roasted espresso, cacao nibs</p><dl class="stats"><div><dt>ABV</dt><dd>9.2%</dd></div><div><dt>IBU</dt><dd>48</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$5</dd></div><div><dt>10 oz</dt><dd>$8</dd></div><div><dt>16 oz</dt><dd>$11</dd></div><div><dt>32 oz</dt><dd>$20</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="8c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 8 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Penalty Try</h5>
+                <p class="pos">Belgian quadrupel</p>
+              </div>
+              <p class="desc">Dark fruit, brandied date and caramel at the strength of a decisive call. When you are awarded this one, it is automatic.</p>
+              <div class="meta"><p class="made">Weyermann malts, candi syrup and Arizona Medjool dates</p><dl class="stats"><div><dt>ABV</dt><dd>11.0%</dd></div><div><dt>IBU</dt><dd>24</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$5</dd></div><div><dt>10 oz</dt><dd>$8</dd></div><div><dt>16 oz</dt><dd>$11</dd></div><div><dt>32 oz</dt><dd>$20</dd></div></dl></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="group" data-group="backs">
+        <div class="group-head">
+          <h3>Backs <span>No. 9–15</span></h3>
+          <p>The speed. Lighter, brighter and gone before you notice.</p>
+        </div>
+        <ul class="beers">
+          <li class="beer">
+            <div class="main" data-key="9">
+              <span class="shirt"><span class="vh">No. </span>9</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Scrum-Half Kölsch</h4>
+                <p class="pos">Scrum-half · Kölsch</p>
+              </div>
+              <p class="desc">Quick hands and a clean pass. Soft pear, light bread, and an empty glass sooner than planned.</p>
+              <div class="meta"><p class="made">Weyermann Pilsner, Hallertau Mittelfrüh</p><dl class="stats"><div><dt>ABV</dt><dd>4.8%</dd></div><div><dt>IBU</dt><dd>18</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$2.50</dd></div><div><dt>10 oz</dt><dd>$4.50</dd></div><div><dt>16 oz</dt><dd>$6</dd></div><div><dt>32 oz</dt><dd>$11</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="9c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 9 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Grubber</h5>
+                <p class="pos">Helles</p>
+              </div>
+              <p class="desc">A short kick through the defence. Clean bread, honeyed malt and a soft hop finish.</p>
+              <div class="meta"><p class="made">Floor-malted Bohemian Pilsner and Hallertau</p><dl class="stats"><div><dt>ABV</dt><dd>4.9%</dd></div><div><dt>IBU</dt><dd>18</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$2.50</dd></div><div><dt>10 oz</dt><dd>$4.50</dd></div><div><dt>16 oz</dt><dd>$6</dd></div><div><dt>32 oz</dt><dd>$11</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="10">
+              <span class="shirt"><span class="vh">No. </span>10</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Fly-Half Hazy IPA</h4>
+                <p class="pos">Fly-half · Hazy IPA</p>
+              </div>
+              <p class="desc">Mango, peach and a soft, juicy haze. The playmaker, and the one everybody watches.</p>
+              <div class="meta"><p class="made">Citra, Mosaic and Galaxy, with seasonal Arizona fruit</p><dl class="stats"><div><dt>ABV</dt><dd>6.4%</dd></div><div><dt>IBU</dt><dd>35</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="10c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 10 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Dummy Pass</h5>
+                <p class="pos">Brut IPA</p>
+              </div>
+              <p class="desc">Bone dry and champagne-bright. You think it is going one way, and it goes another.</p>
+              <div class="meta"><p class="made">Pilsner malt, Citra, Motueka and Hallertau Blanc</p><dl class="stats"><div><dt>ABV</dt><dd>6.2%</dd></div><div><dt>IBU</dt><dd>22</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="11">
+              <span class="shirt"><span class="vh">No. </span>11</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Wing Prickly Pear Wheat</h4>
+                <p class="pos">Wing · Fruited wheat ale</p>
+              </div>
+              <p class="desc">Pink, tart and fast down the sideline. Brewed with Arizona prickly pear.</p>
+              <div class="meta"><p class="made">Arizona prickly pear puree and wheat</p><dl class="stats"><div><dt>ABV</dt><dd>5.0%</dd></div><div><dt>IBU</dt><dd>12</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="11c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 11 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Sidestep</h5>
+                <p class="pos">Belgian witbier</p>
+              </div>
+              <p class="desc">Light, hazy and bright with Arizona orange peel. It moves around the problem instead of through it.</p>
+              <div class="meta"><p class="made">White Sonora wheat and Arizona Valley orange zest</p><dl class="stats"><div><dt>ABV</dt><dd>5.0%</dd></div><div><dt>IBU</dt><dd>14</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="12">
+              <span class="shirt"><span class="vh">No. </span>12</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Inside Centre Pilsner</h4>
+                <p class="pos">Inside centre · Czech-style pilsner</p>
+              </div>
+              <p class="desc">Floral hops over crisp pale malt. Straight lines, hard running and nothing wasted.</p>
+              <div class="meta"><p class="made">Floor-malted Bohemian Pilsner and Žatec Saaz</p><dl class="stats"><div><dt>ABV</dt><dd>5.0%</dd></div><div><dt>IBU</dt><dd>32</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$2.50</dd></div><div><dt>10 oz</dt><dd>$4.50</dd></div><div><dt>16 oz</dt><dd>$6</dd></div><div><dt>32 oz</dt><dd>$11</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="12c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 12 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Overlap</h5>
+                <p class="pos">Vienna lager</p>
+              </div>
+              <p class="desc">Toasted bread and clean amber malt. An extra man on the outside and an easy line through.</p>
+              <div class="meta"><p class="made">Weyermann Vienna malt and Hallertau</p><dl class="stats"><div><dt>ABV</dt><dd>5.0%</dd></div><div><dt>IBU</dt><dd>22</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$2.50</dd></div><div><dt>10 oz</dt><dd>$4.50</dd></div><div><dt>16 oz</dt><dd>$6</dd></div><div><dt>32 oz</dt><dd>$11</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="13">
+              <span class="shirt"><span class="vh">No. </span>13</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Outside Centre Saison</h4>
+                <p class="pos">Outside centre · Saison</p>
+              </div>
+              <p class="desc">Peppery, dry and a little unpredictable. Finds the gap and goes through it.</p>
+              <div class="meta"><p class="made">Pilsner and spelt malt, Styrian Goldings</p><dl class="stats"><div><dt>ABV</dt><dd>6.0%</dd></div><div><dt>IBU</dt><dd>26</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$2.50</dd></div><div><dt>10 oz</dt><dd>$4.50</dd></div><div><dt>16 oz</dt><dd>$6</dd></div><div><dt>32 oz</dt><dd>$11</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="13c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 13 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Loop Play</h5>
+                <p class="pos">Bière de garde</p>
+              </div>
+              <p class="desc">Amber, earthy and dry, with toasted malt and a cellar-cool finish. A loop around the back of the line.</p>
+              <div class="meta"><p class="made">Weyermann Munich and Vienna malts, Strisselspalt</p><dl class="stats"><div><dt>ABV</dt><dd>7.0%</dd></div><div><dt>IBU</dt><dd>22</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="14">
+              <span class="shirt"><span class="vh">No. </span>14</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Right Wing Agave Blonde</h4>
+                <p class="pos">Right wing · Blonde ale</p>
+              </div>
+              <p class="desc">Light, golden and brewed with a touch of agave. The mirror image of the 11, and just as quick.</p>
+              <div class="meta"><p class="made">Weyermann Pilsner, Hallertau Blanc and Arizona agave</p><dl class="stats"><div><dt>ABV</dt><dd>4.9%</dd></div><div><dt>IBU</dt><dd>16</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="14c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 14 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Cut-Out Pass</h5>
+                <p class="pos">Australian pale ale</p>
+              </div>
+              <p class="desc">Passion fruit and pine from Australian hops. The pass that skips the defender and finds the winger.</p>
+              <div class="meta"><p class="made">Galaxy, Ella and Vic Secret hops</p><dl class="stats"><div><dt>ABV</dt><dd>5.1%</dd></div><div><dt>IBU</dt><dd>32</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="15">
+              <span class="shirt"><span class="vh">No. </span>15</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Fullback Desert Lager</h4>
+                <p class="pos">Fullback · Mexican-style lager</p>
+              </div>
+              <p class="desc">The last line of defence against a 110 degree afternoon. Crisp, lime-bright and built to be drunk in numbers.</p>
+              <div class="meta"><p class="made">Pilsner malt, flaked maize and Hallertau Mittelfrüh</p><dl class="stats"><div><dt>ABV</dt><dd>4.6%</dd></div><div><dt>IBU</dt><dd>14</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$2.50</dd></div><div><dt>10 oz</dt><dd>$4.50</dd></div><div><dt>16 oz</dt><dd>$6</dd></div><div><dt>32 oz</dt><dd>$11</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="15c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 15 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Box Kick</h5>
+                <p class="pos">New Zealand pilsner</p>
+              </div>
+              <p class="desc">A high, clean pilsner with lime and tropical hop aroma. Put up in the air and chased down.</p>
+              <div class="meta"><p class="made">Weyermann Pilsner, Motueka and Riwaka hops from New Zealand</p><dl class="stats"><div><dt>ABV</dt><dd>4.8%</dd></div><div><dt>IBU</dt><dd>28</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$2.50</dd></div><div><dt>10 oz</dt><dd>$4.50</dd></div><div><dt>16 oz</dt><dd>$6</dd></div><div><dt>32 oz</dt><dd>$11</dd></div></dl></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="group" data-group="bench">
+        <div class="group-head">
+          <h3>The Bench <span>No. 16–23</span></h3>
+          <p>Seasonal replacements. They come on when the game needs them.</p>
+        </div>
+        <ul class="beers">
+          <li class="beer">
+            <div class="main" data-key="16">
+              <span class="shirt sub"><span class="vh">No. </span>16</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Impact Sub Märzen</h4>
+                <p class="pos">Replacement · Autumn seasonal</p>
+              </div>
+              <p class="desc">Toasted malt, light caramel and a smooth, lager-clean finish. Here for the autumn, gone by winter.</p>
+              <div class="meta"><p class="made">Weyermann Munich and Vienna malts, Hallertau</p><dl class="stats"><div><dt>ABV</dt><dd>5.8%</dd></div><div><dt>IBU</dt><dd>24</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$2.50</dd></div><div><dt>10 oz</dt><dd>$4.50</dd></div><div><dt>16 oz</dt><dd>$6</dd></div><div><dt>32 oz</dt><dd>$11</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="16c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 16 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Garryowen</h5>
+                <p class="pos">Doppelbock</p>
+              </div>
+              <p class="desc">Dark bread, toffee and plum. A high kick in the air, and a heavy landing.</p>
+              <div class="meta"><p class="made">Weyermann Munich malts, decocted and lagered 12 weeks</p><dl class="stats"><div><dt>ABV</dt><dd>8.0%</dd></div><div><dt>IBU</dt><dd>22</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$4</dd></div><div><dt>10 oz</dt><dd>$6.50</dd></div><div><dt>16 oz</dt><dd>$8.50</dd></div><div><dt>32 oz</dt><dd>$15</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="17">
+              <span class="shirt sub"><span class="vh">No. </span>17</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Fresh Legs Milk Stout</h4>
+                <p class="pos">Replacement prop · Rotating</p>
+              </div>
+              <p class="desc">Vanilla, milk chocolate and a creamy body. Comes on at the hour mark when the pack needs a lift.</p>
+              <div class="meta"><p class="made">Maris Otter, Arizona-roasted coffee, real vanilla</p><dl class="stats"><div><dt>ABV</dt><dd>5.5%</dd></div><div><dt>IBU</dt><dd>20</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="17c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 17 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Offload</h5>
+                <p class="pos">Berliner weisse</p>
+              </div>
+              <p class="desc">Tart, light and passed away fast. Seasonal Arizona peach when in season, prickly pear when not.</p>
+              <div class="meta"><p class="made">Wheat malt and Arizona fruit</p><dl class="stats"><div><dt>ABV</dt><dd>3.6%</dd></div><div><dt>IBU</dt><dd>5</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="18">
+              <span class="shirt sub"><span class="vh">No. </span>18</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Second Wind Scotch Ale</h4>
+                <p class="pos">Replacement prop · Rotating</p>
+              </div>
+              <p class="desc">Toffee, dark fruit and a hint of peat smoke. Steadies the scrum when the game gets heavy.</p>
+              <div class="meta"><p class="made">Golden Promise, Simpsons peated malt</p><dl class="stats"><div><dt>ABV</dt><dd>7.0%</dd></div><div><dt>IBU</dt><dd>25</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="18c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 18 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Advantage</h5>
+                <p class="pos">Schwarzbier</p>
+              </div>
+              <p class="desc">Black but light-bodied, with cocoa and toasted crust. The side with the advantage plays on.</p>
+              <div class="meta"><p class="made">Weyermann Carafa Special and Munich malts</p><dl class="stats"><div><dt>ABV</dt><dd>4.8%</dd></div><div><dt>IBU</dt><dd>24</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$2.50</dd></div><div><dt>10 oz</dt><dd>$4.50</dd></div><div><dt>16 oz</dt><dd>$6</dd></div><div><dt>32 oz</dt><dd>$11</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="19">
+              <span class="shirt sub"><span class="vh">No. </span>19</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Finisher Barleywine</h4>
+                <p class="pos">Replacement lock · Winter seasonal</p>
+              </div>
+              <p class="desc">Toffee, raisin and warming oak. Brought on late to close out the game. Sip it slowly.</p>
+              <div class="meta"><p class="made">Golden Promise, Arizona dates and mesquite honey</p><dl class="stats"><div><dt>ABV</dt><dd>10.8%</dd></div><div><dt>IBU</dt><dd>55</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$5</dd></div><div><dt>10 oz</dt><dd>$8</dd></div><div><dt>16 oz</dt><dd>$11</dd></div><div><dt>32 oz</dt><dd>$20</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="19c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 19 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Drop Goal</h5>
+                <p class="pos">Wheatwine</p>
+              </div>
+              <p class="desc">Three points, snuck over the bar from long range. Honey, dates and warm wheat.</p>
+              <div class="meta"><p class="made">Wheat malt, Arizona mesquite honey and dates</p><dl class="stats"><div><dt>ABV</dt><dd>11.0%</dd></div><div><dt>IBU</dt><dd>40</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$5</dd></div><div><dt>10 oz</dt><dd>$8</dd></div><div><dt>16 oz</dt><dd>$11</dd></div><div><dt>32 oz</dt><dd>$20</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="20">
+              <span class="shirt sub"><span class="vh">No. </span>20</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Sin Bin Green Chile Cream Ale</h4>
+                <p class="pos">Replacement · Rotating</p>
+              </div>
+              <p class="desc">Roasted green chile over a smooth cream ale. Ten minutes of heat, then you are back on the pitch.</p>
+              <div class="meta"><p class="made">Pilsner malt and roasted Arizona green chile</p><dl class="stats"><div><dt>ABV</dt><dd>5.2%</dd></div><div><dt>IBU</dt><dd>15</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="20c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 20 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Quick Throw</h5>
+                <p class="pos">Hefeweizen</p>
+              </div>
+              <p class="desc">Banana, clove and bread dough. Taken before the defence is set.</p>
+              <div class="meta"><p class="made">Weyermann wheat, optionally White Sonora wheat</p><dl class="stats"><div><dt>ABV</dt><dd>5.3%</dd></div><div><dt>IBU</dt><dd>13</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$2.50</dd></div><div><dt>10 oz</dt><dd>$4.50</dd></div><div><dt>16 oz</dt><dd>$6</dd></div><div><dt>32 oz</dt><dd>$11</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="21">
+              <span class="shirt sub"><span class="vh">No. </span>21</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Quick Tap Lime Gose</h4>
+                <p class="pos">Replacement scrum-half · Rotating</p>
+              </div>
+              <p class="desc">Tart, lightly salted and lime-bright. Named for the quick-tap penalty, and just as hard to stop.</p>
+              <div class="meta"><p class="made">Wheat malt, sea salt, Arizona limes</p><dl class="stats"><div><dt>ABV</dt><dd>4.2%</dd></div><div><dt>IBU</dt><dd>8</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="21c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 21 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Touch Finder</h5>
+                <p class="pos">Altbier</p>
+              </div>
+              <p class="desc">Copper, dry and bitter. A long kick to touch and a clean finish.</p>
+              <div class="meta"><p class="made">Weyermann Munich malt and Spalt hops</p><dl class="stats"><div><dt>ABV</dt><dd>4.8%</dd></div><div><dt>IBU</dt><dd>32</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$2.50</dd></div><div><dt>10 oz</dt><dd>$4.50</dd></div><div><dt>16 oz</dt><dd>$6</dd></div><div><dt>32 oz</dt><dd>$11</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="22">
+              <span class="shirt sub"><span class="vh">No. </span>22</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Utility Back Cold IPA</h4>
+                <p class="pos">Replacement back · Rotating</p>
+              </div>
+              <p class="desc">Crisp like a lager, hopped like an IPA. Covers whatever position the game needs.</p>
+              <div class="meta"><p class="made">Citra Cryo, Hallertau Blanc and Nelson Sauvin</p><dl class="stats"><div><dt>ABV</dt><dd>6.5%</dd></div><div><dt>IBU</dt><dd>30</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="22c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 22 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Gain Line</h5>
+                <p class="pos">English IPA</p>
+              </div>
+              <p class="desc">Marmalade, earth and a long bitter line. Won the old way, one hard metre at a time.</p>
+              <div class="meta"><p class="made">Maris Otter, East Kent Goldings and Styrian Goldings</p><dl class="stats"><div><dt>ABV</dt><dd>6.2%</dd></div><div><dt>IBU</dt><dd>55</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+          </li>
+          <li class="beer">
+            <div class="main" data-key="23">
+              <span class="shirt sub"><span class="vh">No. </span>23</span>
+              <div class="who">
+                <span class="ontap" hidden>On tap now</span>
+                <h4>Game Breaker Dunkel</h4>
+                <p class="pos">Replacement back · Rotating</p>
+              </div>
+              <p class="desc">Fast, dark and unexpected. Bread crust, light cocoa and a clean lager finish.</p>
+              <div class="meta"><p class="made">Weyermann Munich malt and Hallertau Mittelfrüh</p><dl class="stats"><div><dt>ABV</dt><dd>5.3%</dd></div><div><dt>IBU</dt><dd>20</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$2.50</dd></div><div><dt>10 oz</dt><dd>$4.50</dd></div><div><dt>16 oz</dt><dd>$6</dd></div><div><dt>32 oz</dt><dd>$11</dd></div></dl></div>
+            </div>
+            <div class="cut" data-key="23c">
+              <div class="cut-who">
+                <p class="cut-tag"><span class="tag-chip">No. 23 · Coach's Cut</span><span class="ontap" hidden>On tap now</span></p>
+                <h5>Charge Down</h5>
+                <p class="pos">Rauchbier</p>
+              </div>
+              <p class="desc">Smoke over toasted malt. Blocks the kick and lets nothing through.</p>
+              <div class="meta"><p class="made">Weyermann beechwood smoked malt</p><dl class="stats"><div><dt>ABV</dt><dd>5.4%</dd></div><div><dt>IBU</dt><dd>24</dd></div></dl><dl class="prices" aria-label="Prices by pour size"><div><dt>5 oz</dt><dd>$3</dd></div><div><dt>10 oz</dt><dd>$5</dd></div><div><dt>16 oz</dt><dd>$7</dd></div><div><dt>32 oz</dt><dd>$13</dd></div></dl></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="club" class="band">
+  <div class="wrap club-grid">
+    <div class="club-copy">
+      <p class="eyebrow">The club</p>
+      <h2>Brewed for the third half.</h2>
+      <p>Every rugby match has two halves. The third one starts at the final whistle, when both sides share a bar, trade stories and replay the afternoon. That is the part we wanted to get right, so we built a brewery around it.</p>
+      <p>Lineout Brewing makes small batches in Arizona. Every beer on the team sheet gets a position, because every good side needs a mix of weight and pace.</p>
+    </div>
+    <div>
+      <p class="values-lead">Borrowed from the game: its five core values</p>
+      <dl class="values">
+        <div><dt>Integrity</dt><dd>Honest recipes. If the label says citrus, it is citrus.</dd></div>
+        <div><dt>Passion</dt><dd>Small batches, made by people who care about the details.</dd></div>
+        <div><dt>Solidarity</dt><dd>One team sheet. Every beer carries its weight.</dd></div>
+        <div><dt>Discipline</dt><dd>Cold fermentation, clean water and patience. No shortcuts.</dd></div>
+        <div><dt>Respect</dt><dd>For the barley, the brewers, the opposition and the referee.</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section id="fixtures">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">What's on</p>
+      <h2>Fixtures</h2>
+      <p>Releases, watch parties and club nights. Come for the match, stay for the third half.</p>
+    </div>
+    <ul class="fixtures">
+      <li class="fixture">
+        <time class="date" datetime="2026-10-24"><span class="dow">Sat</span><span class="day">24</span><span class="mon">Oct</span></time>
+        <div class="what"><h3>Märzen Tapping</h3><p>First pour of the autumn Märzen. Pints from noon.</p></div>
+        <p class="ko">Kickoff<b>12:00 PM</b></p>
+      </li>
+      <li class="fixture">
+        <time class="date" datetime="2026-10-29"><span class="dow">Thu</span><span class="day">29</span><span class="mon">Oct</span></time>
+        <div class="what"><h3>Laws of the Game Trivia</h3><p>Teams of four. Rounds on rugby, beer and Arizona. The referee's decision is final.</p></div>
+        <p class="ko">Kickoff<b>6:30 PM</b></p>
+      </li>
+      <li class="fixture">
+        <time class="date" datetime="2026-11-07"><span class="dow">Sat</span><span class="day">7</span><span class="mon">Nov</span></time>
+        <div class="what"><h3>Autumn Internationals Watch Party</h3><p>Test rugby kicks off early in the morning here. Doors at 7, big screen on, pints poured.</p></div>
+        <p class="ko">Doors<b>7:00 AM</b></p>
+      </li>
+      <li class="fixture">
+        <time class="date" datetime="2026-11-21"><span class="dow">Sat</span><span class="day">21</span><span class="mon">Nov</span></time>
+        <div class="what"><h3>Club Night</h3><p>Bring your club jersey. Local sides drink together, whoever they played that week.</p></div>
+        <p class="ko">Kickoff<b>2:00 PM</b></p>
+      </li>
+    </ul>
+    <p class="fx-note">All times are Arizona time. Arizona does not observe daylight saving.</p>
+  </div>
+</section>
+
+<section id="join" class="band">
+  <div class="wrap join-grid">
+    <div class="join-copy">
+      <p class="eyebrow">Founding supporters</p>
+      <h2>Get on the team sheet.</h2>
+      <p>We are building this brewery one batch at a time. Join the list to hear first about pilot batch tastings, the opening date and early events. One email when there is real news, never a flood.</p>
+    </div>
+    <form class="join-form" id="join-form" action="https://buttondown.com/api/emails/embed-subscribe/lineoutbrewing" method="post" target="_blank" novalidate>
+      <div>
+        <label class="lbl" for="join-email">Email address</label>
+        <input type="email" id="join-email" name="email" autocomplete="email" inputmode="email" required placeholder="you@example.com">
+      </div>
+      <label class="join-age"><input type="checkbox" id="join-age" required><span>I am 21 or older.</span></label>
+      <div class="join-hp" aria-hidden="true"><label>Leave this empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+      <button class="btn primary" type="submit">Join the squad</button>
+      <p class="join-msg" id="join-msg" role="status" aria-live="polite"></p>
+      <p class="join-note">We only use your email to send Lineout Brewing news. Unsubscribe at any time. Please enjoy responsibly.</p>
+    </form>
+  </div>
+</section>
+
+<section id="taproom" class="tap-wrap">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Visit</p>
+      <h2>The Taproom</h2>
+      <p>Where the third half happens. Pull up a stool, ask for the team sheet and tell us who you play for.</p>
+    </div>
+    <div class="tap-grid">
+      <dl class="hours">
+        <div class="closed"><dt>Mon–Tue</dt><dd>Rest days</dd></div>
+        <div><dt>Wed–Thu</dt><dd>4:00 PM – 9:00 PM</dd></div>
+        <div><dt>Friday</dt><dd>3:00 PM – 11:00 PM</dd></div>
+        <div><dt>Saturday</dt><dd>12:00 PM – 11:00 PM</dd></div>
+        <div><dt>Sunday</dt><dd>12:00 PM – 7:00 PM</dd></div>
+      </dl>
+      <div class="find">
+        <p class="eyebrow">Find the pitch</p>
+        <p class="addr">[Street address]<span>Arizona</span></p>
+        <p class="tz">Questions, events, wholesale: <a href="mailto:info@lineoutbrewing.com">info@lineoutbrewing.com</a></p>
+        <h3>Third-half rules</h3>
+        <ul class="rules">
+          <li>Wear your colors, whoever you play for.</li>
+          <li>Argue about the match. Shake hands after.</li>
+          <li>Visiting sides drink with the home side.</li>
+        </ul>
+        <p class="tz">Hours shown in Arizona time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<div class="hoops" aria-hidden="true"></div>
+
+<footer class="band foot">
+  <div class="wrap foot-grid">
+    <div>
+      <div class="brand">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><g transform="rotate(-35 20 20)"><ellipse cx="20" cy="20" rx="18" ry="10.5" fill="var(--green)"/><path d="M7 20H33M14 16.5v7M18.5 16.5v7M23 16.5v7M27.5 16.5v7" stroke="var(--gold)" stroke-width="1.8" stroke-linecap="round" fill="none"/></g></svg>
+        <span>Lineout Brewing</span>
+      </div>
+      <p class="tag">Straight throw. Cold pour.</p>
+    </div>
+    <div>
+      <p>Please enjoy responsibly. You must be 21 or older to purchase.</p>
+      <p>© 2026 Lineout Brewing · Arizona</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  /* Which beers show an "On tap now" marker comes from taps.json next to this page. */
+  function normalize(s) {
+    var out = { master: !!(s && s.master), tap: {} };
+    var tap = (s && s.tap) || {};
+    Object.keys(tap).forEach(function (k) { if (tap[k]) out.tap[k] = true; });
+    return out;
+  }
+  var draft = normalize(null);
+  var filter = 'all', showCuts = true;
+
+  var chips = document.querySelectorAll('.chip[data-filter]');
+  var onChip = document.querySelector('.chip[data-filter="ontap"]');
+  var cutsChip = document.getElementById('cuts-chip');
+  var groups = document.querySelectorAll('.group');
+
+  function live(key) { return !!(draft.master && draft.tap[key]); }
+
+  function apply() {
+    document.querySelectorAll('[data-key]').forEach(function (el) {
+      var badge = el.querySelector('.ontap');
+      if (badge) badge.hidden = !live(el.getAttribute('data-key'));
+    });
+    if (onChip) onChip.hidden = !draft.master;
+    if (!draft.master && filter === 'ontap') filter = 'all';
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-filter') === filter ? 'true' : 'false'); });
+    cutsChip.setAttribute('aria-pressed', showCuts ? 'true' : 'false');
+    groups.forEach(function (g) {
+      var any = false;
+      g.querySelectorAll('.beer').forEach(function (li) {
+        var main = li.querySelector('.main'), cut = li.querySelector('.cut');
+        var showMain = true, showCut = showCuts;
+        if (filter === 'ontap') {
+          showMain = live(main.getAttribute('data-key'));
+          showCut = showCuts && live(cut.getAttribute('data-key'));
+        }
+        main.hidden = !showMain;
+        cut.hidden = !showCut;
+        li.hidden = !(showMain || showCut);
+        if (!li.hidden) any = true;
+      });
+      var inGroup = filter === 'all' || filter === 'ontap' || g.getAttribute('data-group') === filter;
+      g.hidden = !(inGroup && any);
+    });
+  }
+
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () { filter = chip.getAttribute('data-filter'); apply(); });
+  });
+  cutsChip.addEventListener('click', function () { showCuts = !showCuts; apply(); });
+
+  apply();
+  if (window.fetch) {
+    fetch('taps.json', { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (s) { if (s) { draft = normalize(s); apply(); } })
+      .catch(function () {});
+  }
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+  /* Signup form. Replace YOUR-BUTTONDOWN-USERNAME in the form action (see README) to turn it on. */
+  var form = document.getElementById('join-form');
+  if (!form) return;
+  var msg = document.getElementById('join-msg');
+  var email = document.getElementById('join-email');
+  var age = document.getElementById('join-age');
+  function say(t) { msg.textContent = t; }
+  form.addEventListener('submit', function (e) {
+    var v = (email.value || '').trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { e.preventDefault(); say('Please enter a valid email address.'); email.focus(); return; }
+    if (!age.checked) { e.preventDefault(); say('Please confirm you are 21 or older.'); age.focus(); return; }
+    if (form.elements.website && form.elements.website.value) { e.preventDefault(); return; }
+    if (form.getAttribute('action').indexOf('YOUR-') !== -1) {
+      e.preventDefault();
+      say('Signups open soon. For now, email info@lineoutbrewing.com to get on the list.');
+      return;
+    }
+    say('Thanks. A confirmation window opened. Check your inbox to finish joining.');
+  });
+})();
+</script>
+</body>
+</html>
